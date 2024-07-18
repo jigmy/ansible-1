@@ -3,7 +3,19 @@
   become: yes
 
   tasks:
-    - name: install apache2 package
+    - name: install apache and php package
+      tags: always
       apt:
         name: apache2
+        name: libapache2-mod-php
         state: latest
+      when: ansible_distribution == "Ubuntu"
+
+    - name: copy default file from src
+      tags: file
+      copy: 
+        src: abc.txt
+        dest: /var/www/file.txt
+        owner: root
+        group: root
+      
